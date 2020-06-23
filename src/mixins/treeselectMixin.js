@@ -1760,12 +1760,10 @@ export default {
 
     select(node) {
       if (this.disabled || node.isDisabled) {
-        // console.log(1)
         return
       }
 
       if (this.single) {
-        // console.log(2)
         this.clear()
       }
 
@@ -1773,17 +1771,54 @@ export default {
         ? this.forest.checkedStateMap[node.id] === UNCHECKED
         : !this.isSelected(node)
 
-      if (nextState) {
-        // console.log(3)
+      if (nextState) /** !! SELECT */ {
         this._selectNode(node)
-        if (node.isLeaf) {
-          const parent = this.options.find(element => element.id === node.ancestors[0].id)
-          if (parent) {
-            // console.log()
-          }
-        }
-      } else {
-        // console.log(4)
+        // if (this.multiple) {
+        //   if (node.isLeaf) {
+        //     const parent = this.options.find(element => element.id === node.ancestors[0].id)
+        //     if (parent) {
+        //       if (parent.limit) {
+        //         console.warn('The parent of this Leaf has a limit')
+        //         // We need to check if we haven't reached the parent Limit
+        //         // number of element of this parent
+        //         const elementsOfTheParent = this.getValue().filter(element => element.parent === parent.id).length
+        //         if (elementsOfTheParent >= parent.limit) {
+        //           console.warn('We have reached the limit of the parent')
+        //           // we need to disable the unselected nodes of this parent
+        //           // get all values of the options (selected of the parent)
+        //           const selectedParentOptions = this.options.filter(element => element.id === parent.id)
+        //           selectedParentOptions[0].children.forEach(el => {
+        //             if (!this.getValue().includes(el)) {
+        //               this.getNode(el.id).isDisabled = true
+        //             }
+        //           })
+        //         }
+        //       }
+        //     }
+        //   } else /* if (node.isBranch) */ {
+        //     const optionSelected = this.options.find(el => el.id === node.id)
+        //     if (optionSelected.limit) {
+        //       if (optionSelected.children.length >= optionSelected.limit) {
+        //         console.warn('This branch has more children than its limit')
+        //         optionSelected.children.slice(0, optionSelected.limit).forEach(el => this._selectNode(this.options.find(x => x.id === el.id)))
+        //       }
+        //     }
+        //   }
+        // }
+      } else /** !! DESELECT */ {
+        // if (node.isLeaf) {
+        //   const parent = this.options.find(element => element.id === node.ancestors[0].id)
+        //   if (parent) {
+        //     if (parent.limit) {
+        //       const selectedParentOptions = this.options.filter(element => element.id === parent.id)
+        //       selectedParentOptions[0].children.forEach(el => {
+        //         if (!this.getValue().includes(el)) {
+        //           this.getNode(el.id).isDisabled = false
+        //         }
+        //       })
+        //     }
+        //   }
+        // }
         this._deselectNode(node)
       }
 
@@ -1798,7 +1833,6 @@ export default {
       }
 
       if (this.localSearch.active && nextState && (this.single || this.clearOnSelect)) {
-        // console.log(7)
         this.resetSearchQuery()
       }
 
